@@ -1,14 +1,14 @@
-FROM node:latest
+FROM node:20-bookworm-slim
 
-EXPOSE 8080
 VOLUME /app/external
 
 WORKDIR /app
-COPY build build
+RUN chown node:node /app
+USER node
+COPY --chown=node:node .yarn .yarn
+COPY --chown=node:node build build
 
-COPY .yarnrc.yml package.json express.js build-external.js .
-RUN corepack enable
-RUN corepack prepare yarn@stable --activate
+COPY --chown=node:node .yarnrc.yml package.json express.js build-external.js .
 RUN yarn install
 
 ENTRYPOINT ["node", "express.js"]
