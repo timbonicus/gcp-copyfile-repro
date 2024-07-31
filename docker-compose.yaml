@@ -1,0 +1,5 @@
+services:
+  gcp-copyfile-repro:
+    image: "gcp-copyfile-repro:latest"
+    volumes:
+      - ./external:/app/external
